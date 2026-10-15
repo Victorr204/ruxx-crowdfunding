@@ -2,9 +2,13 @@ import Image from "next/image";
 import { campaign } from "@/lib/campaign";
 import { IconWhatsApp } from "./Icons";
 
-/** Smooth-scrolls to the donation form. */
+/** Smooth-scrolls to the donation form. On phones the "ways to give" column
+ *  sits above the form, so small screens jump straight to the amount picker. */
 export function scrollToDonate() {
-  document.getElementById("donate")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const isSmall = window.matchMedia("(max-width: 1023px)").matches;
+  const target =
+    (isSmall ? document.getElementById("amounts") : null) ?? document.getElementById("donate");
+  target?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 export default function Header() {

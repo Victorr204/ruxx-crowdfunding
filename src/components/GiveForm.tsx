@@ -212,7 +212,9 @@ export default function GiveForm({ onDone }: Props) {
                   <strong className="block text-[15px] font-extrabold text-ink">
                     {tier.label}
                   </strong>
-                  <span className="text-[14.5px] leading-snug text-ink-soft">{tier.blurb}</span>
+                  <span className="mt-1.5 block text-[14.5px] leading-relaxed text-ink-soft">
+                    {tier.blurb}
+                  </span>
                 </span>
               </li>
             ))}
@@ -228,7 +230,12 @@ export default function GiveForm({ onDone }: Props) {
         </div>
 
         {/* ------------------------------------------------------- the form */}
-        <form onSubmit={handleSubmit} className="card p-5 sm:p-7" aria-label="Contribution form">
+        <form
+          id="amounts"
+          onSubmit={handleSubmit}
+          className="card scroll-mt-24 p-5 sm:p-7"
+          aria-label="Contribution form"
+        >
           <div className="flex items-center justify-between gap-3">
             <h3 className="display text-2xl">Choose your amount</h3>
             <span className="rounded-full bg-teal-100 px-3 py-1 text-[12px] font-extrabold text-teal-700">
