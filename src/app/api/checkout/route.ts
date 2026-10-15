@@ -49,6 +49,11 @@ export async function POST(request: NextRequest) {
   const payerEmail = email || `donor-${reference}@ruxx-prepaid.ng`;
 
   try {
+    // Paystack sends the supporter back here after paying. Use the domain the
+    // request actually came from (never localhost once the site is live),
+    // falling back to the configured site URL.
+    const origin = request.headers.get("origin")?.replace(/\/+$/, "") || siteUrl();
+
     const transaction = await initializeTransaction({
       amountKobo: amount * 100,
       email: payerEmail,
@@ -66,7 +71,7 @@ export async function POST(request: NextRequest) {
           { display_name: "Supporter message", variable_name: "message", value: message || "-" },
         ],
       },
-      callbackUrl: `${siteUrl()}/?reference={reference}`,
+      callbackUrl: `${origin}/?reference={reference}`,
     });
 
     return Response.json({

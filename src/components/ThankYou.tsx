@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { Naira, siteUrl } from "@/lib/campaign";
+import { Naira } from "@/lib/campaign";
+import { useShareUrl } from "@/lib/share";
 import Confetti from "./Confetti";
 import { shareWhatsAppUrl } from "./Hero";
 import { IconCheck, IconWhatsApp, IconX } from "./Icons";
@@ -30,6 +31,8 @@ export default function ThankYou({ confirmation, helperNumber, onClose }: Props)
       window.removeEventListener("keydown", onKey);
     };
   }, [confirmation, onClose]);
+
+  const url = useShareUrl();
 
   if (!confirmation) return null;
 
@@ -68,7 +71,7 @@ export default function ThankYou({ confirmation, helperNumber, onClose }: Props)
 
         <div className="mt-5 grid gap-2.5">
           <a
-            href={shareWhatsAppUrl()}
+            href={shareWhatsAppUrl(url)}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-teal inline-flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-[15px] font-extrabold"
@@ -80,7 +83,7 @@ export default function ThankYou({ confirmation, helperNumber, onClose }: Props)
           <a
             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
               "I just supported Victor's campaign to launch Ruxx Prepaid — airtime, data, cable TV and electricity payments in one app. Even ₦500 helps him reach ₦700,000.",
-            )}&url=${encodeURIComponent(siteUrl())}`}
+            )}&url=${encodeURIComponent(url)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-ink/10 px-5 py-3 text-[15px] font-extrabold text-ink transition hover:border-ink/30"

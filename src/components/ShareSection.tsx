@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { campaign, siteUrl } from "@/lib/campaign";
+import { campaign } from "@/lib/campaign";
+import { useShareUrl } from "@/lib/share";
 import { shareWhatsAppUrl } from "./Hero";
 import { IconCopy, IconCheck, IconTelegram, IconWhatsApp, IconX } from "./Icons";
 
 export default function ShareSection() {
   const [copied, setCopied] = useState(false);
-  const url = siteUrl();
+  const url = useShareUrl();
 
   const shareText =
     "Victor is ₦700,000 away from launching Ruxx Prepaid — an app for airtime, data, DStv and electricity payments in Nigeria. Even ₦500 helps. Please take a look:";
@@ -50,7 +51,7 @@ export default function ShareSection() {
 
           <div className="rounded-[1.75rem] bg-white p-5 shadow-sm">
             <a
-              href={shareWhatsAppUrl()}
+              href={shareWhatsAppUrl(url)}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-teal flex items-center justify-center gap-3 rounded-full px-5 py-4 text-[17px] font-extrabold"

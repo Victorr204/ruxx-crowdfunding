@@ -32,7 +32,9 @@ git-ignored so it can never be pushed):
 ```env
 PAYSTACK_SECRET_KEY=sk_live_...            # server only, never exposed
 NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=pk_live_... # safe in the browser
-NEXT_PUBLIC_SITE_URL=http://localhost:3000  # change after deploying
+NEXT_PUBLIC_SITE_URL=http://localhost:3000  # optional: your live domain — share
+                                            # links use the visitor's own address
+                                            # anyway, so this can never go wrong
 ```
 
 ---
@@ -58,25 +60,14 @@ so your Paystack dashboard stays organised too (custom fields show as columns).
 
 ---
 
-## 3. Go live on Vercel
-
-1. Push this folder to a GitHub repository (`.env.local` is excluded by `.gitignore`).
-2. In Vercel: **Add New → Project → Import** the repo. Framework preset: **Next.js** (auto-detected, no changes needed).
-3. **Settings → Environment Variables**, add:
-   - `PAYSTACK_SECRET_KEY` = your live secret key
-   - `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY` = your live public key
-   - `NEXT_PUBLIC_SITE_URL` = `https://your-domain.vercel.app`
-4. Deploy. Test a donation with your own card, then refund it from the Paystack
-   dashboard if you don't want it counted (`Transactions → Refund`).
-
-### Paystack dashboard
+## 3. Paystack dashboard
 
 - **Settings → API Keys & Webhooks**
-  - **Webhook URL:** `https://your-domain.vercel.app/api/webhook`
+  - **Webhook URL:** `https://your-domain.com/api/webhook`
     (optional — the page still works without it, updates just take up to 30s)
   - ⚠️ **Rotate your secret key.** Yours was pasted in plain text during setup;
-    generate a new `sk_live_...` and update `PAYSTACK_SECRET_KEY` here and on
-    Vercel. Takes a minute and nothing else changes.
+    generate a new `sk_live_...` and update `PAYSTACK_SECRET_KEY` wherever the
+    site runs. Takes a minute and nothing else changes.
 
 ---
 
@@ -104,6 +95,7 @@ src/
       webhook/route.ts       # POST - Paystack HMAC signature check
   lib/
     campaign.ts              # ALL editable content + settings
+    share.ts                 # share-link origin — never says "localhost"
     paystack.ts              # Paystack REST wrappers
     stats.ts                 # totals, helper count, first & completing helper
   components/

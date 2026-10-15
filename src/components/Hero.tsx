@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { campaign, Naira, siteUrl } from "@/lib/campaign";
 import type { CampaignStats } from "@/lib/stats";
+import { useShareUrl } from "@/lib/share";
 import ProgressBar, { useCountUp } from "./Progress";
 import { scrollToDonate } from "./Header";
 import { IconArrow, IconHeart, IconShield, IconSparkle, IconUsers, IconWhatsApp } from "./Icons";
@@ -19,6 +20,7 @@ export default function Hero({ stats }: Props) {
   const helpers = useCountUp(stats?.helperCount ?? 0, 1000);
   const first = stats?.first ?? null;
   const live = stats !== null;
+  const shareBase = useShareUrl();
 
   return (
     <section id="top" className="mx-auto max-w-6xl scroll-mt-20 px-4 pb-4 pt-8 sm:px-6 sm:pt-14">
@@ -99,7 +101,7 @@ export default function Hero({ stats }: Props) {
             </button>
 
             <a
-              href={shareWhatsAppUrl()}
+              href={shareWhatsAppUrl(shareBase)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-teal/25 px-6 py-[14px] text-[15px] font-extrabold text-teal transition hover:border-teal hover:bg-teal-100"
@@ -191,9 +193,10 @@ export default function Hero({ stats }: Props) {
   );
 }
 
-/** WhatsApp share link with a pre-written message. */
-export function shareWhatsAppUrl(): string {
-  const url = siteUrl();
+/** WhatsApp share link with a pre-written message.
+ *  Pass the live origin from `useShareUrl()` so it never says "localhost". */
+export function shareWhatsAppUrl(base: string = siteUrl()): string {
+  const url = base;
   const text =
     "I'm supporting Victor Chidiebere Ruben's campaign to launch Ruxx Prepaid — an app for airtime, data, DStv and electricity payments in Nigeria. " +
     "He needs ₦700,000 to finish, test and publish it. Even ₦500 helps. Join me: " +
