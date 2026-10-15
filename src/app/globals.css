@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens - warm cream page, deep teal brand (from the Ruxx app),
+   amber-gold for every action and the funding progress.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-cream: #fbf6ec;
+  --color-cream-2: #f6eddd;
+  --color-cream-3: #efe3ce;
+  --color-ink: #16211f;
+  --color-ink-soft: #55605d;
+  --color-teal: #0e7c7b;
+  --color-teal-700: #0a5f5e;
+  --color-teal-100: #e2f0ef;
+  --color-gold: #dfa327;
+  --color-gold-600: #c58a12;
+  --color-gold-100: #fbeecb;
+  --color-clay: #cf6437;
+
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-gold-100);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-teal);
+    outline-offset: 2px;
+  }
+}
+
+/* Soft paper-like texture behind the whole page */
+.paper {
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(223, 163, 39, 0.09), transparent 38%),
+    radial-gradient(circle at 88% 4%, rgba(14, 124, 123, 0.09), transparent 42%),
+    radial-gradient(circle at 50% 96%, rgba(207, 100, 55, 0.07), transparent 55%);
+}
+
+/* Headings */
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.06;
+}
+
+/* Rounded soft card used across the page */
+.card {
+  background: #fff;
+  border: 1px solid rgba(22, 33, 31, 0.07);
+  border-radius: 1.5rem;
+  box-shadow:
+    0 1px 2px rgba(22, 33, 31, 0.04),
+    0 18px 40px -28px rgba(22, 33, 31, 0.35);
+}
+
+.btn-gold {
+  background: linear-gradient(180deg, #f0b53c 0%, var(--color-gold) 55%, var(--color-gold-600) 100%);
+  color: #2b1d02;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.45) inset,
+    0 10px 22px -12px rgba(197, 138, 18, 0.9);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    filter 0.18s ease;
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.5) inset,
+    0 16px 28px -14px rgba(197, 138, 18, 0.95);
+}
+
+.btn-gold:active {
+  transform: translateY(0);
+}
+
+.btn-teal {
+  background: var(--color-teal);
+  color: #fff;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
+}
+
+.btn-teal:hover {
+  background: var(--color-teal-700);
+  transform: translateY(-2px);
+}
+
+/* Funding bar */
+.progress-track {
+  background: rgba(22, 33, 31, 0.08);
+  box-shadow: inset 0 2px 4px rgba(22, 33, 31, 0.08);
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, var(--color-gold-600), #f5bb45 55%, var(--color-gold));
+  background-size: 220% 100%;
+  animation: shimmer 3.2s linear infinite;
+  box-shadow: 0 0 22px -4px rgba(223, 163, 39, 0.75);
+  transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.progress-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), transparent 60%);
+  border-radius: inherit;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 220% 50%;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+.floaty {
+  animation: floaty 6s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.pulse-soft {
+  animation: pulse-soft 2.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
