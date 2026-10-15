@@ -40,14 +40,16 @@ export const metadata: Metadata = {
     description: campaign.tagline,
     url: siteUrl(),
     siteName: "Ruxx Prepaid Crowdfunding",
-    images: [{ url: campaign.images.hero, width: 1672, height: 941, alt: "Ruxx Digital Services" }],
+    images: [
+      { url: campaign.images.shareBanner, width: 1200, height: 675, alt: "Ruxx Digital Services" },
+    ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Help me launch Ruxx Digital Services",
     description: campaign.tagline,
-    images: [campaign.images.hero],
+    images: [campaign.images.shareBanner],
   },
 };
 

@@ -30,6 +30,10 @@ export const campaign = {
   images: {
     hero: "/hero-img.jpg",
     logo: "/logo.png",
+    /** Lightweight (95 KB) 1200×675 copy of the hero used for link previews —
+     *  crawlers on slow networks fetch this fast, so WhatsApp/Telegram never
+     *  render a text-only preview. */
+    shareBanner: "/share-banner.jpg",
   },
 
   /** Suggested contribution levels (naira). */
