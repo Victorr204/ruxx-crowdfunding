@@ -1,4 +1,4 @@
-# Ruxx Prepaid — ₦700,000 Crowdfunding Page
+# Ruxx Prepaid — ₦1,500,000 Crowdfunding Page
 
 A warm, single-page crowdfunding site for **Ruxx Digital Services**, powered by
 **Paystack**. Supporters give from ₦500 upward, and the page shows the live
@@ -48,7 +48,7 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000  # optional: your live domain — sha
 | Instant refresh | Webhook `POST /api/webhook` (signature-checked) clears the 30-second cache |
 | Unique people | counted once per email address; payments without an email count as their own helper |
 | **First helper** | the earliest successful transaction |
-| **Goal completer** | the donation whose running total first reaches ₦700,000 |
+| **Goal completer** | the donation whose running total first reaches ₦1,500,000 |
 
 Every donation is tagged on creation in `POST /api/checkout` with:
 

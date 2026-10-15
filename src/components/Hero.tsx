@@ -166,7 +166,7 @@ export default function Hero({ stats }: Props) {
               {Naira.format(500)} still counts
             </p>
             <p className="text-[11.5px] font-semibold text-ink-soft">
-              700 people × {Naira.format(1000)} = goal
+              {(goalNaira / 1000).toLocaleString("en-NG")} people × {Naira.format(1000)} = goal
             </p>
           </div>
         </div>
@@ -199,7 +199,7 @@ export function shareWhatsAppUrl(base: string = siteUrl()): string {
   const url = base;
   const text =
     "I'm supporting Victor Chidiebere Ruben's campaign to launch Ruxx Prepaid — an app for airtime, data, DStv and electricity payments in Nigeria. " +
-    "He needs ₦700,000 to finish, test and publish it. Even ₦500 helps. Join me: " +
+    "He needs ₦1,500,000 to finish, test and publish it. Even ₦500 helps. Join me: " +
     url;
   return `https://wa.me/?text=${encodeURIComponent(text)}`;
 }

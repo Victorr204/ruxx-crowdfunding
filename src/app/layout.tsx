@@ -26,7 +26,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
-  title: "Help me launch Ruxx Prepaid — Victor's ₦700,000 campaign",
+  title: "Help me launch Ruxx Prepaid — Victor's ₦1,500,000 campaign",
   description: campaign.tagline,
   keywords: [
     "Ruxx Prepaid",

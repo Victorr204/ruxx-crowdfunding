@@ -11,7 +11,7 @@ export default function ShareSection() {
   const url = useShareUrl();
 
   const shareText =
-    "Victor is ₦700,000 away from launching Ruxx Prepaid — an app for airtime, data, DStv and electricity payments in Nigeria. Even ₦500 helps. Please take a look:";
+    "Victor is ₦1,500,000 away from launching Ruxx Prepaid — an app for airtime, data, DStv and electricity payments in Nigeria. Even ₦500 helps. Please take a look:";
 
   const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`;
   const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;

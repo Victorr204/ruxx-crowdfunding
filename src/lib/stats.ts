@@ -7,7 +7,7 @@
      - total raised
      - how many people helped
      - who was FIRST to help
-     - who COMPLETED the goal (the donation that crossed 700k)
+     - who COMPLETED the goal (the donation that crossed the target)
      - the recent helpers feed
 --------------------------------------------------------------------------- */
 

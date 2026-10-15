@@ -10,9 +10,9 @@ export const campaign = {
 
   title: "Help me launch Ruxx Digital Services",
   tagline:
-    "Help me raise ₦700,000 to complete, test, and publish Ruxx Prepaid — a platform designed to make everyday digital payments in Nigeria faster and easier.",
+    "Help me raise ₦1,500,000 to complete, test, and publish Ruxx Prepaid — a platform designed to make everyday digital payments in Nigeria faster and easier.",
 
-  goalNaira: 700_000,
+  goalNaira: 1_500_000,
   currency: "NGN" as const,
 
   /** Used to scope which Paystack transactions belong to this campaign. */
@@ -57,7 +57,7 @@ export const campaign = {
     {
       amount: 10000,
       label: "Become a launch supporter.",
-      blurb: "Help accelerate progress toward the ₦700,000 target.",
+      blurb: "Help accelerate progress toward the ₦1,500,000 target.",
     },
   ],
 
@@ -72,7 +72,7 @@ export const campaign = {
     "I've been working toward building a digital service that makes it easier for Nigerians to access essential everyday services from one convenient platform. Today, I'm reaching out to ask for your support in helping me take this project across the finish line.",
     "That vision is Ruxx Digital Services, powered by our official app, Ruxx Prepaid.",
     "Ruxx is designed to make purchasing airtime, subscribing to internet data plans, renewing cable TV subscriptions, and paying electricity bills simpler and more convenient. Rather than making these services complicated, I want to provide users with a straightforward digital experience that saves time and makes everyday transactions easier.",
-    "I'm now working toward the final development, testing, and publishing stage. To move forward, I need to raise ₦700,000 — approximately $500.",
+    "I'm now working toward the final development, testing, and publishing stage. To move forward, I need to raise ₦1,500,000 — approximately $1,000.",
     "This may not be a huge amount compared with the funding many startups seek, but it is an important milestone for me and this project. I've decided to reach out to individuals who might be willing to contribute whatever they can.",
     "I'm not asking one person to carry the entire burden. I'm asking many people to help make a shared goal possible.",
   ],
@@ -157,7 +157,8 @@ export const Naira = {
     return "₦" + value.toLocaleString("en-NG", { maximumFractionDigits: 0 });
   },
   compact(naira: number): string {
-    if (naira >= 1_000_000) return `₦${(naira / 1_000_000).toFixed(2)}m`;
+    if (naira >= 1_000_000)
+      return `₦${(naira / 1_000_000).toFixed(2).replace(/\.?0+$/, "")}m`;
     if (naira >= 1_000) return `₦${Math.round(naira / 1_000)}k`;
     return `₦${Math.round(naira)}`;
   },

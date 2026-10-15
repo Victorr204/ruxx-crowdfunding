@@ -18,7 +18,7 @@ export default function StickyDonate({ stats }: { stats: CampaignStats | null })
   }, []);
 
   const raised = stats?.raisedNaira ?? 0;
-  const goal = stats?.goalNaira || 700000;
+  const goal = stats?.goalNaira || 1_500_000;
   const percent = stats?.percent ?? 0;
   const clamped = Math.max(0, Math.min(100, percent));
 

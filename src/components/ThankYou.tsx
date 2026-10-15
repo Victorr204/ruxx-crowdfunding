@@ -82,7 +82,7 @@ export default function ThankYou({ confirmation, helperNumber, onClose }: Props)
 
           <a
             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-              "I just supported Victor's campaign to launch Ruxx Prepaid — airtime, data, cable TV and electricity payments in one app. Even ₦500 helps him reach ₦700,000.",
+              "I just supported Victor's campaign to launch Ruxx Prepaid — airtime, data, cable TV and electricity payments in one app. Even ₦500 helps him reach ₦1,500,000.",
             )}&url=${encodeURIComponent(url)}`}
             target="_blank"
             rel="noopener noreferrer"

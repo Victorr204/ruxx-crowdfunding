@@ -1,9 +1,19 @@
 import { campaign, Naira } from "@/lib/campaign";
 
+/** These multiply out to the goal — people counts derive from it, so they
+ *  always stay correct if the target ever changes. */
 const combinations = [
-  { people: 700, amount: 1000, note: "the classic — a small gift from many hands" },
-  { people: 140, amount: 5000, note: "fewer people, bigger strides" },
-  { people: 1400, amount: 500, note: "if you can only give ₦500, it still counts" },
+  {
+    people: campaign.goalNaira / 1000,
+    amount: 1000,
+    note: "the classic — a small gift from many hands",
+  },
+  { people: campaign.goalNaira / 5000, amount: 5000, note: "fewer people, bigger strides" },
+  {
+    people: campaign.goalNaira / 500,
+    amount: 500,
+    note: "if you can only give ₦500, it still counts",
+  },
 ];
 
 export default function WhyFund() {
@@ -58,7 +68,7 @@ export default function WhyFund() {
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
           {combinations.map((combo) => (
             <div key={combo.amount} className="rounded-3xl bg-white p-6 text-center shadow-sm">
-              <p className="display text-4xl text-ink">{combo.people}</p>
+              <p className="display text-4xl text-ink">{combo.people.toLocaleString("en-NG")}</p>
               <p className="mt-1 text-[13px] font-extrabold uppercase tracking-wider text-ink-soft">
                 people × {Naira.format(combo.amount)}
               </p>
