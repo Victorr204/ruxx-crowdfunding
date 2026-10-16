@@ -185,14 +185,13 @@ export default function Hero({ stats }: Props) {
         <p className="text-center text-sm leading-snug sm:text-left">
           <span className="font-extrabold">{fundraiser.name}</span>
           <span className="block text-ink-soft">
-            {fundraiser.role} ·{" "}
             <a
               href={campaign.business.url}
               target="_blank"
               rel="noopener noreferrer"
               className="font-bold text-teal-700 underline underline-offset-2"
             >
-              {campaign.business.display}
+              {fundraiser.role}
             </a>{" "}
             · asking many people to carry a little, together
           </span>

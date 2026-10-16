@@ -10,6 +10,9 @@ interface CheckoutBody {
   email?: string;
   message?: string;
   anonymous?: boolean;
+  /** "transfer" restricts the checkout to bank transfer only, so the popup
+   *  opens straight on the account number. */
+  channel?: string;
 }
 
 /** POST /api/checkout - creates a Paystack transaction for one donation. */
@@ -58,6 +61,7 @@ export async function POST(request: NextRequest) {
       amountKobo: amount * 100,
       email: payerEmail,
       reference,
+      channels: body.channel === "transfer" ? ["bank_transfer"] : undefined,
       metadata: {
         campaign: campaign.id,
         donor_name: name,

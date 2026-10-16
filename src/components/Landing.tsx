@@ -17,9 +17,11 @@ import ThankYou from "./ThankYou";
 
 interface Props {
   initial: CampaignStats | null;
+  /** Virtual-account "pay later" option — only when Paystack enables it. */
+  payLaterAvailable?: boolean;
 }
 
-export default function Landing({ initial }: Props) {
+export default function Landing({ initial, payLaterAvailable = false }: Props) {
   const [stats, setStats] = useState<CampaignStats | null>(initial);
   const [notice, setNotice] = useState<string | null>(null);
   const [confirmation, setConfirmation] = useState<DonationConfirmation | null>(null);
@@ -108,7 +110,7 @@ export default function Landing({ initial }: Props) {
         <Story />
         <Services />
         <WhyFund />
-        <GiveForm onDone={handleDonation} />
+        <GiveForm onDone={handleDonation} payLaterAvailable={payLaterAvailable} />
         <HelpersWall stats={stats} />
         <ShareSection />
         <Trust />

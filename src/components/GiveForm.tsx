@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { campaign, Naira } from "@/lib/campaign";
 import { IconArrow, IconGift, IconLock, IconSparkle } from "./Icons";
 
@@ -11,11 +11,13 @@ export interface DonationConfirmation {
 
 interface Props {
   onDone: (confirmation: DonationConfirmation) => void;
+  /** Rendered only when Paystack virtual accounts are enabled for the account. */
+  payLaterAvailable?: boolean;
 }
 
 type Selection = number | "custom";
 
-export default function GiveForm({ onDone }: Props) {
+export default function GiveForm({ onDone, payLaterAvailable = false }: Props) {
   const [selection, setSelection] = useState<Selection>(1000);
   const [customAmount, setCustomAmount] = useState("");
   const [name, setName] = useState("");
@@ -24,6 +26,13 @@ export default function GiveForm({ onDone }: Props) {
   const [anonymous, setAnonymous] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [transferExpiresAt, setTransferExpiresAt] = useState<number | null>(null);
+  const [tick, setTick] = useState(() => Date.now());
+  const [payLaterBusy, setPayLaterBusy] = useState(false);
+  const [payLaterDone, setPayLaterDone] = useState<{
+    accountNumber: string;
+    bankName: string;
+  } | null>(null);
 
   const amount = useMemo(() => {
     if (selection === "custom") {
@@ -38,8 +47,25 @@ export default function GiveForm({ onDone }: Props) {
     amount <= campaign.maxNaira &&
     (name.trim().length > 0 || anonymous);
 
+  // Live countdown for the one-time transfer account (30 minutes from opening).
+  useEffect(() => {
+    if (!transferExpiresAt) return;
+    const id = setInterval(() => setTick(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [transferExpiresAt]);
+
+  const transferSecondsLeft = transferExpiresAt
+    ? Math.max(0, Math.ceil((transferExpiresAt - tick) / 1000))
+    : null;
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
+    await startPayment();
+  }
+
+  /** Starts a Paystack checkout. `channel === "transfer"` restricts the popup
+   *  to bank transfer only, so it opens directly on the account number. */
+  async function startPayment(channel?: "transfer") {
     if (busy) return;
 
     setError(null);
@@ -54,6 +80,12 @@ export default function GiveForm({ onDone }: Props) {
     }
 
     setBusy(true);
+    if (channel === "transfer") {
+      // The one-time account lives for 30 minutes - the countdown on the page
+      // starts the moment we ask Paystack for it.
+      setTick(Date.now());
+      setTransferExpiresAt(Date.now() + 30 * 60 * 1000);
+    }
 
     const donorName = name.trim() || "A kind friend";
 
@@ -67,6 +99,7 @@ export default function GiveForm({ onDone }: Props) {
           email: email.trim(),
           message: message.trim(),
           anonymous,
+          channel,
         }),
       });
 
@@ -180,6 +213,46 @@ export default function GiveForm({ onDone }: Props) {
         setBusy(false);
         setError("The checkout could not open in this browser.");
       }
+    }
+  }
+
+  /** "Pay later": assigns the donor their own PERMANENT virtual account. */
+  async function handlePayLater() {
+    if (payLaterBusy) return;
+    setError(null);
+
+    if (!name.trim() && !anonymous) {
+      setError("Please add your name — or tick “go anonymous”.");
+      return;
+    }
+
+    setPayLaterBusy(true);
+    try {
+      const response = await fetch("/api/pay-later", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim() || "A kind friend",
+          message: message.trim(),
+          anonymous,
+        }),
+      });
+      const data = (await response.json()) as {
+        error?: string;
+        accountNumber?: string;
+        bankName?: string;
+      };
+      if (!response.ok || !data.accountNumber) {
+        throw new Error(data.error || "We could not create your account number. Please try again.");
+      }
+      setPayLaterDone({
+        accountNumber: data.accountNumber,
+        bankName: data.bankName || "Partner bank",
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setPayLaterBusy(false);
     }
   }
 
@@ -398,34 +471,130 @@ export default function GiveForm({ onDone }: Props) {
             </p>
           )}
 
-          <button
-            type="submit"
-            disabled={busy || !valid}
-            className="btn-gold mt-5 flex w-full items-center justify-center gap-2 rounded-full px-6 py-4 text-[17px] font-extrabold disabled:cursor-not-allowed disabled:opacity-55"
-          >
-            {busy ? (
-              <>
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-ink/30 border-t-ink" />
-                Opening Paystack…
-              </>
-            ) : amount >= campaign.minNaira ? (
-              <>
-                <IconGift className="h-5 w-5" />
-                Donate {Naira.format(amount)}
-                <IconArrow className="h-5 w-5" />
-              </>
-            ) : (
-              <>
-                <IconGift className="h-5 w-5" />
-                Choose an amount
-              </>
-            )}
-          </button>
+          <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
+            <button
+              type="submit"
+              disabled={busy || !valid}
+              className="btn-gold flex w-full items-center justify-center gap-2 rounded-full px-6 py-4 text-[17px] font-extrabold disabled:cursor-not-allowed disabled:opacity-55"
+            >
+              {busy ? (
+                <>
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-ink/30 border-t-ink" />
+                  Opening Paystack…
+                </>
+              ) : amount >= campaign.minNaira ? (
+                <>
+                  <IconGift className="h-5 w-5" />
+                  Donate {Naira.format(amount)}
+                  <IconArrow className="h-5 w-5" />
+                </>
+              ) : (
+                <>
+                  <IconGift className="h-5 w-5" />
+                  Choose an amount
+                </>
+              )}
+            </button>
+
+            <button
+              type="button"
+              disabled={busy || !valid}
+              onClick={() => startPayment("transfer")}
+              className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-teal/30 bg-teal-100 px-6 py-4 text-[16px] font-extrabold text-teal-700 transition hover:bg-teal hover:text-white disabled:cursor-not-allowed disabled:opacity-55"
+            >
+              Open account number — bank transfer
+            </button>
+          </div>
+
+          {/* ------------------------------------- transfer expiry warning */}
+          <div className="mt-4 rounded-2xl border border-gold/30 bg-gold-100/70 p-4">
+            <p className="text-[13.5px] font-extrabold text-gold-600">
+              Transfer accounts expire after 30 minutes
+            </p>
+            <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-soft">
+              The one-time account number only works for{" "}
+              <strong className="text-ink">30 minutes</strong>. Send your transfer immediately —{" "}
+              <strong className="text-ink">do not copy the number to pay later</strong>, because an
+              expired account cannot receive your money.
+            </p>
+
+            {transferSecondsLeft !== null &&
+              (transferSecondsLeft > 0 ? (
+                <p className="mt-3 flex flex-wrap items-center gap-2 rounded-xl bg-white px-3.5 py-2.5 text-[13.5px] font-extrabold text-ink">
+                  <span className="h-2.5 w-2.5 shrink-0 animate-pulse rounded-full bg-clay" />
+                  Your account number expires in
+                  <span className="tabular-nums text-clay">
+                    {String(Math.floor(transferSecondsLeft / 60)).padStart(2, "0")}:
+                    {String(transferSecondsLeft % 60).padStart(2, "0")}
+                  </span>
+                  — complete the transfer now
+                </p>
+              ) : (
+                <p className="mt-3 rounded-xl bg-white px-3.5 py-2.5 text-[13.5px] font-extrabold text-clay">
+                  That account number has expired. Tap “Open account number” again for a fresh one.
+                </p>
+              ))}
+          </div>
 
           <p className="mt-3 flex flex-wrap items-center justify-center gap-1.5 text-center text-[13px] font-semibold text-ink-soft">
             <IconLock className="h-4 w-4 text-teal" />
             Card, transfer &amp; USSD on Paystack’s secure page
           </p>
+
+          {/* --------------------------------------- pay later (virtual acct) */}
+          {payLaterAvailable && !payLaterDone && (
+            <div className="mt-4 rounded-2xl border-2 border-dashed border-teal/30 p-4">
+              <p className="text-[14.5px] font-extrabold text-ink">
+                Prefer to pay later? Get your own account number
+              </p>
+              <p className="mt-1 text-[13.5px] leading-relaxed text-ink-soft">
+                A <strong className="text-ink">permanent</strong> account number, just for you —
+                transfer any amount, anytime, with no 30-minute limit. It is detected automatically
+                and shows your name on the helpers wall (or “A kind friend” if anonymous is ticked
+                above).
+              </p>
+              <button
+                type="button"
+                onClick={handlePayLater}
+                disabled={payLaterBusy}
+                className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-teal px-5 py-3 text-[14.5px] font-extrabold text-white transition hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-55"
+              >
+                {payLaterBusy ? (
+                  <>
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                    Creating your account…
+                  </>
+                ) : (
+                  <>Get my account number</>
+                )}
+              </button>
+            </div>
+          )}
+
+          {payLaterDone && (
+            <div className="mt-4 rounded-2xl bg-teal-100 p-4">
+              <p className="text-[12.5px] font-extrabold uppercase tracking-wider text-teal-700">
+                Your permanent account number
+              </p>
+              <div className="mt-1.5 flex items-center justify-between gap-3">
+                <p className="display text-3xl tracking-wide text-ink">
+                  {payLaterDone.accountNumber}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => navigator.clipboard?.writeText(payLaterDone.accountNumber)}
+                  className="rounded-full bg-white px-3.5 py-1.5 text-[12.5px] font-extrabold text-teal-700 transition hover:bg-teal-700 hover:text-white"
+                >
+                  Copy
+                </button>
+              </div>
+              <p className="mt-1 text-[13.5px] font-bold text-teal-700">{payLaterDone.bankName}</p>
+              <p className="mt-2 text-[13px] leading-relaxed text-teal-700/90">
+                Transfer any amount, anytime — it is counted and shown on the helpers wall
+                automatically.
+              </p>
+            </div>
+          )}
         </form>
       </div>
     </section>

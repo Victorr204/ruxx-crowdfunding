@@ -19,25 +19,26 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: "Not authorised." }, { status: 401 });
   }
 
-  const raw = await request.text();
-  const expected = createHmac("sha512", secret).update(raw).digest("hex");
-
-  const provided = Buffer.from(signature, "utf8");
-  const computed = Buffer.from(expected, "utf8");
-  const valid = provided.length === computed.length && timingSafeEqual(provided, computed);
-
-  if (!valid) {
-    return Response.json({ error: "Invalid signature." }, { status: 401 });
-  }
-
   try {
-    const event = JSON.parse(raw) as { event?: string };
-    if (event.event === "charge.success" || event.event === "charge.success.awaiting") {
-      clearStatsCache();
-    }
-  } catch {
-    /* ignore malformed payloads - Paystack only needs a 2xx */
-  }
+    const raw = await request.text();
+    const expected = createHmac("sha512", secret).update(raw).digest("hex");
 
-  return Response.json({ received: true });
+    const provided = Buffer.from(signature, "utf8");
+    const computed = Buffer.from(expected, "utf8");
+    const valid = provided.length === computed.length && timingSafeEqual(provided, computed);
+
+    if (!valid) {
+      return Response.json({ error: "Invalid signature." }, { status: 401 });
+    }
+
+    // Paystack signs every genuine event (charge.success, dedicated_nuban.success,
+    // refunds...) with this same signature. The safest reaction to ANY signed
+    // event is simply dropping our stats cache: the next page load re-counts
+    // straight from Paystack, so nothing a signed event sends can fake a
+    // donation - it can only make updates appear instantly.
+    clearStatsCache();
+    return Response.json({ received: true });
+  } catch {
+    return Response.json({ received: true });
+  }
 }

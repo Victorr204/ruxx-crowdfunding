@@ -1,6 +1,7 @@
 import Landing from "@/components/Landing";
 import { getStats } from "@/lib/stats";
 import type { CampaignStats } from "@/lib/stats";
+import { dvaAvailable } from "@/lib/paystack";
 
 export const dynamic = "force-dynamic";
 
@@ -15,5 +16,9 @@ export default async function HomePage() {
     initial = null;
   }
 
-  return <Landing initial={initial} />;
+  // The "pay later" virtual-account option turns itself on automatically once
+  // Paystack enables dedicated accounts for this account (cached probe).
+  const payLaterAvailable = await dvaAvailable();
+
+  return <Landing initial={initial} payLaterAvailable={payLaterAvailable} />;
 }

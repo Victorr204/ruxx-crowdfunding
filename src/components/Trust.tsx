@@ -77,7 +77,7 @@ export default function Trust() {
               the official contact details.
             </p>
             <p className="mt-3 inline-flex items-center gap-1.5 text-[13.5px] font-extrabold text-teal-700">
-              {campaign.business.display} →
+              {campaign.business.name} →
             </p>
           </a>
         </div>

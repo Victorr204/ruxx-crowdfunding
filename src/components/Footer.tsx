@@ -94,7 +94,7 @@ export default function Footer() {
               <span className="block text-[13px] font-bold uppercase tracking-wider text-ink-soft">
                 The business behind the campaign
               </span>
-              <span className="block text-[17px] font-extrabold">{business.display}</span>
+              <span className="block text-[17px] font-extrabold">{business.name}</span>
             </span>
             <span aria-hidden className="ml-auto pr-1 text-2xl text-gold-600">
               →
