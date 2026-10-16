@@ -27,6 +27,13 @@ export const campaign = {
     whatsappLink: "https://wa.me/2349037306845",
   },
 
+  /** The official business site, linked for credibility. */
+  business: {
+    name: "Ruxx Digital Services",
+    url: "https://ruxxdigital.name.ng",
+    display: "ruxxdigital.name.ng",
+  },
+
   images: {
     hero: "/hero-img.jpg",
     logo: "/logo.png",

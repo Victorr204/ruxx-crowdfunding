@@ -3,7 +3,7 @@ import { campaign, Naira } from "@/lib/campaign";
 import { IconShield, IconWhatsApp } from "./Icons";
 
 export default function Footer() {
-  const { fundraiser, images, goalNaira } = campaign;
+  const { fundraiser, images, goalNaira, business } = campaign;
   const year = new Date().getFullYear();
 
   return (
@@ -73,6 +73,33 @@ export default function Footer() {
               <span className="block text-[16px] font-extrabold">Secured by Paystack</span>
             </span>
           </div>
+
+          <a
+            href={business.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 rounded-3xl bg-gold-100 p-5 transition hover:bg-white sm:col-span-3"
+          >
+            <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-2xl bg-white ring-1 ring-ink/10">
+              <Image
+                src={images.logo}
+                alt="Ruxx Digital Services logo"
+                width={475}
+                height={525}
+                sizes="44px"
+                className="h-full w-full object-cover"
+              />
+            </span>
+            <span>
+              <span className="block text-[13px] font-bold uppercase tracking-wider text-ink-soft">
+                The business behind the campaign
+              </span>
+              <span className="block text-[17px] font-extrabold">{business.display}</span>
+            </span>
+            <span aria-hidden className="ml-auto pr-1 text-2xl text-gold-600">
+              →
+            </span>
+          </a>
         </div>
 
         {/* ----------------------------------------------------------- bottom */}

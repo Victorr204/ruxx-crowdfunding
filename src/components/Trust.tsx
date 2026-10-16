@@ -64,6 +64,22 @@ export default function Trust() {
               Live transactions are checked against Paystack before they are counted.
             </p>
           </div>
+
+          <a
+            href={campaign.business.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block rounded-3xl bg-white p-6 ring-1 ring-ink/5 transition hover:ring-gold/50"
+          >
+            <p className="text-[15px] font-extrabold">See the business behind the campaign</p>
+            <p className="mt-2 text-[14.5px] leading-relaxed text-ink-soft">
+              {campaign.business.name} has its own website — browse the services offered and find
+              the official contact details.
+            </p>
+            <p className="mt-3 inline-flex items-center gap-1.5 text-[13.5px] font-extrabold text-teal-700">
+              {campaign.business.display} →
+            </p>
+          </a>
         </div>
       </div>
     </section>
