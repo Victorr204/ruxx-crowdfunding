@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { campaign } from "@/lib/campaign";
-import { assignDedicatedAccount, createPaystackCustomer } from "@/lib/paystack";
+import { assignDedicatedAccount, createPaystackCustomer, dvaAvailable } from "@/lib/paystack";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +21,15 @@ export async function POST(request: NextRequest) {
     body = (await request.json()) as PayLaterBody;
   } catch {
     return Response.json({ error: "Invalid request body." }, { status: 400 });
+  }
+
+  // Paystack has not activated virtual accounts for this business yet - the
+  // client shows a friendly note instead of an error.
+  if (!(await dvaAvailable())) {
+    return Response.json(
+      { error: "Virtual accounts are not activated yet.", code: "dva_unavailable" },
+      { status: 503 },
+    );
   }
 
   const name = String(body.name ?? "").trim().slice(0, 60);

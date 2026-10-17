@@ -36,6 +36,39 @@ export default function Trust() {
         </div>
 
         <div className="space-y-4">
+          <div className="rounded-3xl bg-white p-6 ring-1 ring-ink/5">
+            <p className="flex items-center gap-2 text-[15px] font-extrabold">
+              <IconShield className="h-5 w-5 text-teal" />
+              How to know this campaign is genuine
+            </p>
+            <ul className="mt-3.5 space-y-3 text-[14px] leading-relaxed text-ink-soft">
+              <li>
+                <strong className="text-ink">Money goes to Paystack, never a personal account.</strong>{" "}
+                Payments are received by Paystack (paystack.com), Nigeria’s payment processor. I
+                receive the funds only after Paystack verifies each payment — your bank app will
+                show a Paystack account, not an individual’s name.
+              </li>
+              <li>
+                <strong className="text-ink">A real business stands behind it.</strong> This
+                campaign belongs to {campaign.business.name} — see{" "}
+                <a
+                  href={campaign.business.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-teal-700 underline underline-offset-2"
+                >
+                  {campaign.business.display}
+                </a>{" "}
+                for our services and official contact details.
+              </li>
+              <li>
+                <strong className="text-ink">Talk to the founder before you give.</strong> WhatsApp{" "}
+                {fundraiser.whatsappDisplay} — the same number published on our website — and I
+                will answer any question personally.
+              </li>
+            </ul>
+          </div>
+
           <div className="rounded-3xl bg-ink p-6 text-cream">
             <p className="flex items-center gap-2 text-[13px] font-extrabold uppercase tracking-wider text-gold">
               <IconShield className="h-4 w-4" />
