@@ -122,10 +122,10 @@ src/
   **RC 8623757** — and the page links to the official CAC public search
   (`icrp.cac.gov.ng/public-search`) so anyone can verify the registration
   themselves before donating.
-- While a one-time transfer account is open, a **bold warning with a live
-  countdown is pinned above the Paystack popup** itself (its overlay stacking
-  is lowered from our side), so supporters never write the number down to pay
-  after the 30-minute expiry.
+- Before the one-time account opens, a **"read this first" sheet explains the
+  30-minute limit in full** (one-time, transfer immediately, money sent after
+  expiry is lost), and a warning card with a **live countdown** sits under the
+  Donate button — so supporters never write the number down to pay later.
 
 ---
 
