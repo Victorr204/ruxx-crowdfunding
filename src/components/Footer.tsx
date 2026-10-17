@@ -116,7 +116,16 @@ export default function Footer() {
               />
             </span>
             <span className="text-[13.5px] text-ink-soft">
-              © {year} Ruxx Digital Services · Campaign started 15 October 2026
+              © {year} {business.name} ·{" "}
+              <a
+                href={business.cac.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold underline underline-offset-2 hover:text-ink"
+              >
+                RC {business.cac.rc}
+              </a>{" "}
+              · Campaign started 15 October 2026
             </span>
           </div>
 

@@ -118,6 +118,14 @@ src/
 - Webhook payloads are verified with an HMAC-SHA512 signature comparison.
 - `.env.local` is git-ignored. Never paste the secret key into client code,
   GitHub issues, or chat.
+- The campaign is run by a **CAC-registered business** — RUXX DIGITAL SERVICE,
+  **RC 8623757** — and the page links to the official CAC public search
+  (`icrp.cac.gov.ng/public-search`) so anyone can verify the registration
+  themselves before donating.
+- While a one-time transfer account is open, a **bold warning with a live
+  countdown is pinned above the Paystack popup** itself (its overlay stacking
+  is lowered from our side), so supporters never write the number down to pay
+  after the 30-minute expiry.
 
 ---
 

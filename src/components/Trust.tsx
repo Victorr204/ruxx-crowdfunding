@@ -61,6 +61,21 @@ export default function Trust() {
                 </a>{" "}
                 for our services and official contact details.
               </li>
+              <li className="rounded-2xl bg-cream-2 p-3.5">
+                <strong className="text-ink">Registered with the Nigerian government.</strong>{" "}
+                {campaign.business.cac.registeredName} —{" "}
+                <a
+                  href={campaign.business.cac.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-extrabold text-teal-700 underline underline-offset-2"
+                >
+                  RC {campaign.business.cac.rc}
+                </a>{" "}
+                is registered with the Corporate Affairs Commission (CAC). Tap the RC number to
+                verify the company yourself on the official CAC portal — it will show the
+                registration as valid.
+              </li>
               <li>
                 <strong className="text-ink">Talk to the founder before you give.</strong> WhatsApp{" "}
                 {fundraiser.whatsappDisplay} — the same number published on our website — and I

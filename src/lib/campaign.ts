@@ -32,6 +32,12 @@ export const campaign = {
     name: "Ruxx Digital Services",
     url: "https://ruxxdigital.name.ng",
     display: "ruxxdigital.name.ng",
+    /** CAC registration — anyone can verify it on the official CAC portal. */
+    cac: {
+      registeredName: "RUXX DIGITAL SERVICE",
+      rc: "8623757",
+      url: "https://icrp.cac.gov.ng/public-search/",
+    },
   },
 
   images: {

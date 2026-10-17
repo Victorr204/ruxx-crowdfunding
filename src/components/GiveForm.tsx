@@ -178,6 +178,24 @@ export default function GiveForm({ onDone }: Props) {
           // The checkout is on screen - no need for the hosted-page fallback.
           loaded = true;
           if (fallback) clearTimeout(fallback);
+
+          // Paystack's overlay stacks above everything by default, which would
+          // hide the pinned one-time-account warning. Lower its stacking level
+          // (not its appearance) so the alert stays visible on top of the
+          // modal - donors read it exactly where they copy the number.
+          try {
+            let node: HTMLElement | null = document.querySelector(
+              "iframe[src*='checkout.paystack.com']",
+            );
+            while (node && node !== document.body) {
+              if (Number(getComputedStyle(node).zIndex) >= 2_147_483_000) {
+                node.style.setProperty("z-index", "2147482000", "important");
+              }
+              node = node.parentElement;
+            }
+          } catch {
+            /* never let the banner tweak break the checkout */
+          }
         },
         onCancel: () => {
           if (settled) return;
@@ -266,6 +284,22 @@ export default function GiveForm({ onDone }: Props) {
 
   return (
     <section id="donate" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-14 sm:px-6 sm:py-20">
+      {/* ------------------------------------ alert pinned above the Paystack
+          popup: donors read THIS while copying the account number, so nobody
+          writes it down to pay after the 30-minute expiry. */}
+      {transferSecondsLeft !== null && transferSecondsLeft > 0 && (
+        <div className="fixed inset-x-0 top-0 z-[2147483000] bg-clay px-3 py-2 text-center shadow-[0_2px_16px_rgba(0,0,0,0.35)]">
+          <p className="text-[12px] font-extrabold uppercase leading-tight tracking-[0.08em] text-white sm:text-[13.5px]">
+            ⚠ One-time account ·{" "}
+            <span className="tabular-nums text-[15px]">
+              {String(Math.floor(transferSecondsLeft / 60)).padStart(2, "0")}:
+              {String(transferSecondsLeft % 60).padStart(2, "0")}
+            </span>{" "}
+            left — money sent after expiry is lost, transfer now
+          </p>
+        </div>
+      )}
+
       <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
         {/* ------------------------------------------------- explanation */}
         <div>
