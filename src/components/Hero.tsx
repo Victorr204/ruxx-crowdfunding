@@ -130,8 +130,8 @@ export default function Hero({ stats }: Props) {
             <Image
               src={images.hero}
               alt="Victor Chidiebere Ruben — founder of Ruxx Digital Services"
-              width={1152}
-              height={716}
+              width={530}
+              height={470}
               sizes="(max-width: 1024px) calc(100vw - 56px), 470px"
               priority
               className="h-auto w-full rounded-2xl"
@@ -177,8 +177,8 @@ export default function Hero({ stats }: Props) {
         <Image
           src={fundraiser.avatar}
           alt={fundraiser.name}
-          width={360}
-          height={360}
+          width={530}
+          height={470}
           sizes="48px"
           className="h-12 w-12 rounded-full object-cover ring-2 ring-gold/50"
         />
