@@ -129,9 +129,9 @@ export default function Hero({ stats }: Props) {
           <div className="card relative overflow-hidden p-3 sm:p-4">
             <Image
               src={images.hero}
-              alt="The Ruxx Prepaid app — airtime, data, cable TV and electricity payments"
-              width={1672}
-              height={941}
+              alt="Victor Chidiebere Ruben — founder of Ruxx Digital Services"
+              width={1152}
+              height={1431}
               sizes="(max-width: 1024px) calc(100vw - 56px), 470px"
               priority
               className="h-auto w-full rounded-2xl"
@@ -175,10 +175,10 @@ export default function Hero({ stats }: Props) {
       {/* ------------------------------------------------------- founder strip */}
       <div className="mt-12 flex items-center justify-center gap-4 rounded-3xl border border-ink/5 bg-white/70 px-4 py-4 sm:mt-16">
         <Image
-          src={fundraiser.photo}
+          src={fundraiser.avatar}
           alt={fundraiser.name}
-          width={530}
-          height={470}
+          width={360}
+          height={360}
           sizes="48px"
           className="h-12 w-12 rounded-full object-cover ring-2 ring-gold/50"
         />

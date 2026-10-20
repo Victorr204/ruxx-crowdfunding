@@ -135,8 +135,8 @@ Most supporters will open this from WhatsApp on a phone, so:
 
 - **Images are served through `next/image`** — the 1.7 MB hero banner is delivered
   to a phone as a ~60 KB WebP at the exact size needed (all images together load
-  in under 100 KB). Replace `public/hero-img.jpg` with any image; the same sizing
-  applies automatically.
+  in under 100 KB). Replace `public/founder-full-v2.jpg` with any image; the
+  same sizing applies automatically.
 - **No horizontal scrolling** at any width from 320 px (small Android) to 1440 px.
 - **Inputs are 16 px+** so iOS Safari doesn't zoom into the form, and the amount
   field uses `inputmode="numeric"` to bring up the number pad.

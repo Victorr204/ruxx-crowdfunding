@@ -21,7 +21,9 @@ export const campaign = {
   fundraiser: {
     name: "Victor Chidiebere Ruben",
     role: "Founder, Ruxx Digital Services",
-    photo: "/my-img.png",
+    photo: "/founder-full-v2.jpg",
+    /** Passport-style face crop for the small round avatars. */
+    avatar: "/founder-avatar-v2.jpg",
     whatsappNumber: "2349037306845",
     whatsappDisplay: "+234 903 730 6845",
     whatsappLink: "https://wa.me/2349037306845",
@@ -41,7 +43,7 @@ export const campaign = {
   },
 
   images: {
-    hero: "/hero-img.jpg",
+    hero: "/founder-full-v2.jpg",
     logo: "/logo.png",
     /** Lightweight (95 KB) 1200×675 copy of the hero used for link previews —
      *  crawlers on slow networks fetch this fast, so WhatsApp/Telegram never

@@ -16,8 +16,8 @@ export default function Story() {
             <Image
               src={fundraiser.photo}
               alt={fundraiser.name}
-              width={530}
-              height={470}
+              width={1152}
+              height={1431}
               sizes="(max-width: 1024px) calc(100vw - 64px), 420px"
               className="h-auto w-full rounded-2xl object-cover"
             />
@@ -79,10 +79,10 @@ export default function Story() {
       {/* small app shot tucked under the story */}
       <div className="mt-12 overflow-hidden rounded-3xl bg-white p-4 sm:p-6">
         <Image
-          src={images.hero}
-          alt="Ruxx Prepaid app screens"
-          width={1672}
-          height={941}
+          src={images.shareBanner}
+          alt="The Ruxx Prepaid app — airtime, data, cable TV and electricity payments"
+          width={1200}
+          height={675}
           sizes="(max-width: 800px) calc(100vw - 72px), 768px"
           className="mx-auto h-auto w-full max-w-3xl rounded-2xl"
         />

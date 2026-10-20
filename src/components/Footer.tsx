@@ -23,10 +23,10 @@ export default function Footer() {
           <p className="mt-6 text-[15px] text-ink-soft">With gratitude,</p>
           <div className="mt-3 flex items-center justify-center gap-3">
             <Image
-              src={fundraiser.photo}
+              src={fundraiser.avatar}
               alt={fundraiser.name}
-              width={530}
-              height={470}
+              width={360}
+              height={360}
               sizes="48px"
               className="h-12 w-12 rounded-full object-cover ring-2 ring-gold/50"
             />
