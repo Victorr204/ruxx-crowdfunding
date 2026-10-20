@@ -131,7 +131,7 @@ export default function Hero({ stats }: Props) {
               src={images.hero}
               alt="Victor Chidiebere Ruben — founder of Ruxx Digital Services"
               width={1152}
-              height={1431}
+              height={716}
               sizes="(max-width: 1024px) calc(100vw - 56px), 470px"
               priority
               className="h-auto w-full rounded-2xl"

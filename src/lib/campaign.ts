@@ -43,7 +43,7 @@ export const campaign = {
   },
 
   images: {
-    hero: "/founder-full-v2.jpg",
+    hero: "/founder-hero-v2.jpg",
     logo: "/logo.png",
     /** Lightweight (95 KB) 1200×675 copy of the hero used for link previews —
      *  crawlers on slow networks fetch this fast, so WhatsApp/Telegram never
