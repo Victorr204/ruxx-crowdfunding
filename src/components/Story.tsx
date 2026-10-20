@@ -32,8 +32,8 @@ export default function Story() {
               The vision
             </p>
             <p className="mt-1.5 text-[15px] font-semibold leading-relaxed text-teal-700">
-              One convenient platform for airtime, data, cable TV and electricity — built for
-              Nigerians.
+              Make utility payments stress-free for Nigerians — so many platforms already do the
+              same thing, and people deserve one simple place to get it all done.
             </p>
           </div>
         </div>
